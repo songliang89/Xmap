@@ -1,6 +1,6 @@
 <?php namespace App\Models\Dao;
 
-use \Libs\Illuminate\DBFactory;
+use Libs\Illuminate\DBFactory;
 
 class User {
 

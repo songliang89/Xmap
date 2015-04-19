@@ -2,5 +2,5 @@
 
 include(PATH_ROOT . 'libs/Autoloader.php');
 
-Libs\Illuminate\Bootstrap::init()->route()->run();
+\Libs\Illuminate\Bootstrap::init()->route()->run();
 

@@ -2,7 +2,7 @@
 
 class HandleExceptions {
 
-    public function bootstrap(){
+    public function bootstrap(Application $app){
         
     } 
 }
