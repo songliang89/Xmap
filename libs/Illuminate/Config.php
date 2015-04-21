@@ -8,38 +8,36 @@ class Config {
      */
     public static $mysqlConfig = [
         'default' => [
-            'mysql' => [
-                'host'     => '127.0.0.1',
+            'master' => [
+                'host'     => 'localhost',
                 'port'     => '3306',
                 'uname'    => 'root',
-                'passport' => 'hope',
+                'passwd'   => 'hope',
+                'dbname'   => 'yence',
                 'charset'  => 'utf8',
             ],
             'slave' => [
-                'host'     => '127.0.0.1',
+                'host'     => 'localhost',
                 'port'     => '3306',
                 'uname'    => 'root',
-                'passport' => 'hope',
+                'passwd'   => 'hope',
+                'dbname'   => 'yence',
                 'charset'  => 'utf8',
             ],
         ],
     ];   
 
     /**
-     * Redis config array
+     * route config
      *
-     */
-    public static $redisConfig = [
-        'host' => '127.0.0.1',
-        'port' => '6379',
-    ];
-
-    /**
-     * Memcache config array
-     *
-     */
-    public static $mcConfig = [
-        'host' => '127.0.0.1',
-        'port' => '11211',
+     */ 
+    public static $route = [
+        'home' => [
+            'view'  => '<mid?\d+\.html>/<id?\d+>',
+            'index' => '<uid?\d+>',
+        ],
+        'user' => [
+            'index' => '<id?\d+>',
+        ],
     ]; 
 }

@@ -2,7 +2,7 @@
 
 class Router {
 
-    public static $get;
+    public static $get = []; //url参数
 
     /**
      * Change uri to params array.
@@ -10,40 +10,45 @@ class Router {
      * @return array
      */
     private function getSecureUriString($uri) {
-        $uri = explode('?', urldecode($uri));
-        $uri = array_shift($uri);
+        $uri = array_shift(explode('?', urldecode($uri)));
         return explode('/', trim($uri, '/'));
     }
 
     /**
-     * Params 
+     * Parse uri and match route config. 
      *
-     *
+     * @return void
      */
     private function parse(){
         $uri = str_replace('/index.php', '', $_SERVER['REQUEST_URI']);
+        
         $paramsArr = $this->getSecureUriString($uri);
 
-        $configArr = RouterConfig::$route;
+        $configArr = Config::$route;
         
-        if (isset($route[$paramsArr[0]])) {
+        if (isset($configArr[$paramsArr[0]])) {
             $_GET['s'] = $paramsArr[0];
             array_shift($paramsArr);  
             
             $configArr = $configArr[$_GET['s']];
 
             if (isset($paramsArr[0]) && isset($configArr[$paramsArr[0]])) {
-                $_GET[ACTION] = $paramsArr[0];
+                $_GET['a'] = $paramsArr[0];
                 array_shift($paramsArr);    
-            } else {
-                
-            }
+            } 
         } 
- 
-        $_GET['s'] = $uriArr[0];
-        $_GET['a'] = $uriArr[1];
-    }
+   }
 
+    /**
+     * Return a instance of controller.
+     *
+     * @return object
+     */
+    private function getControllerInstance(){
+        $class = "App\Controllers\\" . ucfirst($_GET['s']);
+        $class .= 'Controller';
+        return new $class($_GET['s'], $_GET['a']);
+    }
 
     /**
      * Framework route , return the instance of current controller.
@@ -52,8 +57,6 @@ class Router {
      */
     public  function route() {
         $this->parse();
-        $class = "App\Controllers\\" . ucfirst($_GET['s']); 
-        $class .= 'Controller';
-        return new $class($_GET['s'], $_GET['a']);
+        return $this->getControllerInstance();
     }
 }

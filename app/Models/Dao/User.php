@@ -6,11 +6,28 @@ class User {
 
     private static $db;    
 
-    public function getUserById(){
+    public function __construct() {
         self::$db = new DBFactory();
-        return array(
-            'a' => 1,
-            'b' => 2,
-        );
+    }
+
+    /**
+     * Get userinfo by uid.
+     * 
+     * @param  int   $uid
+     * @return array $user
+     */
+    public function getUserById($uid){
+        
+        $table = 'userinfo';
+        
+        $fields = ['id', 'nickname', 'indb_time'];
+        
+        $conds = [
+            'id=' => $uid,
+        ]; 
+
+        $user = self::$db->select($table, $fields, $conds);
+        
+        return $user; 
     }
 }

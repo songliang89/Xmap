@@ -3,10 +3,16 @@
 use App\Models\Dao\User as DaoUser;
 
 class User {
-    
-    public function getUserById(){
+   
+    /**
+     * Get usreinfo by uid.
+     *
+     * @param int $uid
+     * @return array
+     */
+    public function getUserById($uid){
         $user = new DaoUser();
-        $ret = $user->getUserById();
+        $ret = $user->getUserById($uid);
         return $ret;
     }
 }

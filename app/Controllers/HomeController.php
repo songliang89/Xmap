@@ -6,9 +6,10 @@ class HomeController extends DefaultController {
 
     public function view(){
         $user = new User();
-        $ret = $user->getUserById();
+        $uid = 2;
+        $ret = $user->getUserById($uid);
+        header("Content-type: text/html; charset=utf-8"); 
+        echo "<pre>";
         print_r($ret);
-        echo "JLink" . rand(1,100);
     }
-
 }
