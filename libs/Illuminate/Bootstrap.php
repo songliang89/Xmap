@@ -1,7 +1,7 @@
 <?php namespace Libs\Illuminate;
 
 use Libs\Illuminate\Router;
-
+use Libs\Illuminate\Exception\HandleException;
 class Bootstrap {
 
     
@@ -11,6 +11,10 @@ class Bootstrap {
      * @return void
      */
     public static function init(){
-       return new Router(); 
+        
+        $handleException = new HandleException();
+        $handleException->bootstrap(); 
+       
+        return new Router(); 
     }
 }

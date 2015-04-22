@@ -33,8 +33,8 @@ class Config {
      */ 
     public static $route = [
         'home' => [
-            'view'  => '<mid?\d+\.html>/<id?\d+>',
-            'index' => '<uid?\d+>',
+            'view'  => '<uid?\d+>',
+            'index' => '<uid?\d+>/<id?\d+\.html>',
         ],
         'user' => [
             'index' => '<id?\d+>',

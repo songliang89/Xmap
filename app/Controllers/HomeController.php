@@ -6,7 +6,7 @@ class HomeController extends DefaultController {
 
     public function view(){
         $user = new User();
-        $uid = 2;
+        $uid = $this->input['uid'];
         $ret = $user->getUserById($uid);
         header("Content-type: text/html; charset=utf-8"); 
         echo "<pre>";
