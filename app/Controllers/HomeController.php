@@ -8,8 +8,7 @@ class HomeController extends DefaultController {
         $user = new User();
         $uid = $this->input['uid'];
         $ret = $user->getUserById($uid);
-        header("Content-type: text/html; charset=utf-8"); 
-        echo "<pre>";
-        print_r($ret);
+        $this->setView('ret', $ret[0]);
+        $this->display('index.html');
     }
 }

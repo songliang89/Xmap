@@ -1,4 +1,4 @@
-<?php
+<?php include('Config.php');
 /**
  * Class of autoloader.
  *
@@ -53,5 +53,3 @@ class Autoloader {
     }
 }
 spl_autoload_register(array('Autoloader', 'loader'));
-
-

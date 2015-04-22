@@ -14,7 +14,23 @@ class Bootstrap {
         
         $handleException = new HandleException();
         $handleException->bootstrap(); 
-       
+  
+        self::initCompileTemplate(); 
+         
         return new Router(); 
+    }
+
+    /**
+     * Init compile dir template_c
+     *
+     * @return void
+     */
+    public static function initCompileTemplate() {
+        
+        $templateCPath = PATH_CACHE . 'templates_c/';
+        
+        Common::recursiveMkdir($templateCPath);
+        
+        define('PATH_APP_TPC', $templateCPath);
     }
 }
