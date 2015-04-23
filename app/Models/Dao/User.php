@@ -30,4 +30,16 @@ class User {
         
         return $user; 
     }
+
+    public function getUserCount(){
+        $table = 'userinfo';
+        $ret = self::$db->selectCount($table);
+        return $ret;
+    }
+
+    public function addUser($row) {
+        $table = 'userinfo';
+        $id = self::$db->insert($table, $row);
+        return $id;
+    }
 }

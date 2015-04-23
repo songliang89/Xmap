@@ -2,6 +2,7 @@
 
 use Libs\Illuminate\Exception\BaseException;
 use Libs\Illuminate\BaseView;
+use Libs\Illuminate\Config;
 
 class Controller {
     
@@ -31,10 +32,33 @@ class Controller {
             case 'GET':
                 break;
             case 'POST':
+                if(empty($_SERVER['HTTP_REFERER'])) {
+                    throw new BaseException('Request source not allowd.', '1026');
+                }
+                $parseReferer = parse_url($_SERVER['HTTP_REFERER']);
+                if(empty($parseReferer['host']) || !preg_match("/^[\w\.]+$/", $parseReferer['host'])) {
+                    throw new BaseException('Request source not allowd.', '1026');
+                }
+                foreach (Config::$refer as $referer) {
+                    if($referer === $parseReferer['host'] || ('.' . $referer === substr($parseReferer['host'], -(strlen($referer)+1)))) {
+                        break;
+                    }
+                }
                 break;
+            case 'HEAD':
+                 break;
+            default:
+                throw new BaseException('Request source not allowd.', '1027');
         }        
         $action = self::$action;
-        call_user_func([&$this, $action]); 
+        if(in_array($action, array('run', 'setView', 'display', 'fetch'), true)){
+            throw new BaseException('Action can not be called.', '1027');    
+        }
+        if(method_exists($this, $action)) {
+            call_user_func([&$this, $action]); 
+        } else {
+            throw new BaseException('Action not exist.', '1027');
+        }
     }
     
     /**

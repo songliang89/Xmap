@@ -15,4 +15,16 @@ class User {
         $ret = $user->getUserById($uid);
         return $ret;
     }
+
+    public function getUserCount(){
+        $user = new DaoUser();
+        $ret = $user->getUserCount();
+        return $ret;
+    }
+
+    public function addUser($row){
+        $user = new DaoUser();
+        $ret = $user->addUser($row);
+        return $ret;
+    }
 }
