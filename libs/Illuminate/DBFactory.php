@@ -1,5 +1,7 @@
 <?php namespace Libs\Illuminate; 
+
 use Libs\Illuminate\Exception\DBException;
+
 class DBFactory {
 
     private static $instances = array(); // database connections

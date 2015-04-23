@@ -36,11 +36,6 @@ class Autoloader {
     * @return void
     */ 
     public static function loader($classname) {
-        /*
-        if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $classname)) {
-            exit();
-        } 
-        */
         $arr = explode('\\', $classname);
         $arr[0] = lcfirst($arr[0]);
         $prefix = PATH_ROOT . implode('/', $arr);

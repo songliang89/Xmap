@@ -1,6 +1,6 @@
 <?php namespace Libs\Illuminate\Exception;
 
-use Libs\Illuminate\BaseView;
+use Libs\Illuminate\Foundation\BaseView;
 
 class HandleException {
 
