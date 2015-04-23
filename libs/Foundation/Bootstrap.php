@@ -1,6 +1,8 @@
-<?php namespace Libs\Illuminate;
+<?php namespace Libs\Foundation;
 
-use Libs\Illuminate\Exception\HandleException;
+use Libs\Exception\HandleException;
+
+use Libs\Container\Common;
 
 class Bootstrap {
 
@@ -10,7 +12,6 @@ class Bootstrap {
     }
 
     public static function _initCompileTemplate(){
-        echo "sina";
         $templateCPath = PATH_CACHE . 'templates_c/';
         Common::recursiveMkdir($templateCPath);
         define('PATH_APP_TPC', $templateCPath);

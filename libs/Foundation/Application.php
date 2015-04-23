@@ -1,4 +1,4 @@
-<?php namespace Libs\Illuminate;
+<?php namespace Libs\Foundation;
 
 class Application {
 
@@ -47,9 +47,9 @@ class Application {
      * @return void
      */
     public static function bootstrap(){
-        $methods = get_class_methods('Libs\Illuminate\Bootstrap');
+        $methods = get_class_methods('Libs\Foundation\Bootstrap');
         foreach($methods as $method) {
-            call_user_func(array('Libs\Illuminate\Bootstrap', $method));
+            call_user_func(array('Libs\Foundation\Bootstrap', $method));
         }
     }
 }

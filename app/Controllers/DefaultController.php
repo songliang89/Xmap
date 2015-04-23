@@ -1,7 +1,7 @@
 <?php  namespace App\Controllers;
 
-use Libs\Illuminate\Controller\Controller;
-use Libs\Illuminate\Exception\BaseException;
+use Libs\Controller\Controller;
+use Libs\Exception\BaseException;
 
 class DefaultController extends Controller {
 

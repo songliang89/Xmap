@@ -1,4 +1,4 @@
-<?php namespace Libs\Illuminate;
+<?php namespace Libs\Container;
 
 class Http {
    

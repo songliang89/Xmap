@@ -1,6 +1,6 @@
 <?php include('Config.php');
 
-use Libs\Illuminate\Exception\BaseException;
+use Libs\Exception\BaseException;
 
 /**
  * Class of autoloader.

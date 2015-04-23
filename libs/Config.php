@@ -3,3 +3,47 @@
 defined('PATH_CACHE') || define('PATH_CACHE', '/data1/');
 
 defined('DEBUG')      || define('DEBUG', 1);
+
+class Config {
+
+    /**
+     * Mysql config array, master and slave.
+     *
+     */
+    public static $mysqlConfig = [
+        'default' => [
+            'master' => [
+                'host'     => 'localhost',
+                'port'     => '3306',
+                'uname'    => 'root',
+                'passwd'   => 'hope',
+                'dbname'   => 'yence',
+                'charset'  => 'utf8',
+            ],
+            'slave' => [
+                'host'     => 'localhost',
+                'port'     => '3306',
+                'uname'    => 'root',
+                'passwd'   => 'hope',
+                'dbname'   => 'yence',
+                'charset'  => 'utf8',
+            ],
+        ],
+    ];   
+
+    /**
+     * route config
+     *
+     */ 
+    public static $route = [
+        'home' => [
+            'view'  => '<uid?\d+>',
+            'index' => '<uid?\d+>/<id?\d+\.html>',
+        ],
+        'user' => [
+            'index' => '<id?\d+>',
+        ],
+    ]; 
+
+    public static $refer = ['yence.cn', 'test.com'];
+}

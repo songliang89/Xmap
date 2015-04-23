@@ -1,4 +1,5 @@
-<?php namespace Libs\Illuminate;
+<?php namespace Libs\Foundation;
+
 
 class Router {
 
@@ -25,7 +26,7 @@ class Router {
         
         $paramsArr = $this->getSecureUriString($uri);
 
-        $configArr = Config::$route;
+        $configArr = \Config::$route;
         
         if (isset($configArr[$paramsArr[0]])) {
             $_GET['s'] = $paramsArr[0];

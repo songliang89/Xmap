@@ -1,6 +1,6 @@
-<?php namespace Libs\Illuminate; 
+<?php namespace Libs\Container; 
 
-use Libs\Illuminate\Exception\DBException;
+use Libs\Exception\DBException;
 
 class DBFactory {
 
@@ -15,12 +15,12 @@ class DBFactory {
         
         empty($DBName) && $DBName = 'default';
     
-        $host    = isset($DBConfig[$DBType]['host'])    ? $DBConfig[$DBType]['host']    :  Config::$mysqlConfig[$DBName][$DBType]['host'];
-        $port    = isset($DBConfig[$DBType]['port'])    ? $DBConfig[$DBType]['port']    :  Config::$mysqlConfig[$DBName][$DBType]['port']; 
-        $uname   = isset($DBConfig[$DBType]['uname'])   ? $DBConfig[$DBType]['uname']   :  Config::$mysqlConfig[$DBName][$DBType]['uname']; 
-        $passwd  = isset($DBConfig[$DBType]['passwd'])  ? $DBConfig[$DBType]['passwd']  :  Config::$mysqlConfig[$DBName][$DBType]['passwd'];
-        $dbname  = isset($DBConfig[$DBType]['dbname'])  ? $DBConfig[$DBType]['dbname']  :  Config::$mysqlConfig[$DBName][$DBType]['dbname']; 
-        $charset = isset($DBConfig[$DBType]['charset']) ? $DBConfig[$DBType]['charset'] :  Config::$mysqlConfig[$DBName][$DBType]['charset']; 
+        $host    = isset($DBConfig[$DBType]['host'])    ? $DBConfig[$DBType]['host']    :  \Config::$mysqlConfig[$DBName][$DBType]['host'];
+        $port    = isset($DBConfig[$DBType]['port'])    ? $DBConfig[$DBType]['port']    :  \Config::$mysqlConfig[$DBName][$DBType]['port']; 
+        $uname   = isset($DBConfig[$DBType]['uname'])   ? $DBConfig[$DBType]['uname']   :  \Config::$mysqlConfig[$DBName][$DBType]['uname']; 
+        $passwd  = isset($DBConfig[$DBType]['passwd'])  ? $DBConfig[$DBType]['passwd']  :  \Config::$mysqlConfig[$DBName][$DBType]['passwd'];
+        $dbname  = isset($DBConfig[$DBType]['dbname'])  ? $DBConfig[$DBType]['dbname']  :  \Config::$mysqlConfig[$DBName][$DBType]['dbname']; 
+        $charset = isset($DBConfig[$DBType]['charset']) ? $DBConfig[$DBType]['charset'] :  \Config::$mysqlConfig[$DBName][$DBType]['charset']; 
         
         self::$key = md5(implode('#', array($host, $port, $uname, $dbname, $charset)));
 

@@ -1,6 +1,6 @@
-<?php namespace Libs\Illuminate;
+<?php namespace Libs\Foundation;
 
-include(PATH_ROOT . 'libs/Illuminate/Views/Smarty.class.php');
+include(PATH_ROOT . 'libs/Views/Smarty.class.php');
 
 class BaseView {
     const LEFT_DELIMITER  = '{=';
@@ -12,7 +12,7 @@ class BaseView {
             self::$tpl = new \Smarty();
             self::$tpl->setTemplateDir(PATH_ROOT . 'static/templates');
             self::$tpl->setCompileDir(PATH_APP_TPC);
-            self::$tpl->addPluginsDir(PATH_ROOT . 'libs/Illuminate/Views/myplugins');
+            self::$tpl->addPluginsDir(PATH_ROOT . 'libs/Views/myplugins');
             self::$tpl->left_delimiter  = self::LEFT_DELIMITER;
             self::$tpl->right_delimiter = self::RIGHT_DELIMITER;
             self::$tpl->compile_locking = false;
@@ -22,7 +22,7 @@ class BaseView {
             function escFilter ($content, $smarty) {
                 return htmlspecialchars($content,ENT_QUOTES,'UTF-8');
             }
-            self::$tpl->registerFilter('variable', 'Libs\Illuminate\escFilter');
+            self::$tpl->registerFilter('variable', 'Libs\Foundation\escFilter');
         }
     }
 

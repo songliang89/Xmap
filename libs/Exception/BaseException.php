@@ -1,7 +1,8 @@
-<?php namespace Libs\Illuminate\Exception;
+<?php namespace Libs\Exception;   
 
-class HttpException extends BaseException {
+class BaseException extends \Exception{
+
     public function __construct($message = null, $code = 0) {
         parent::__construct($message, $code);
-    }      
+    } 
 }

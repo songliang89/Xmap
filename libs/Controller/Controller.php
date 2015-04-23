@@ -1,8 +1,7 @@
-<?php namespace Libs\Illuminate\Controller;
+<?php namespace Libs\Controller;
 
-use Libs\Illuminate\Exception\BaseException;
-use Libs\Illuminate\BaseView;
-use Libs\Illuminate\Config;
+use Libs\Exception\BaseException;
+use Libs\Foundation\BaseView;
 
 class Controller {
     
@@ -39,7 +38,7 @@ class Controller {
                 if(empty($parseReferer['host']) || !preg_match("/^[\w\.]+$/", $parseReferer['host'])) {
                     throw new BaseException('Request source not allowd.', '1026');
                 }
-                foreach (Config::$refer as $referer) {
+                foreach (\Config::$refer as $referer) {
                     if($referer === $parseReferer['host'] || ('.' . $referer === substr($parseReferer['host'], -(strlen($referer)+1)))) {
                         break;
                     }
