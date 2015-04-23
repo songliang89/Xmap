@@ -41,6 +41,10 @@ class Router {
         } 
       
         while (!empty($paramsArr[0])) {
+           
+            if (empty($configArr)) {
+                throw new BaseException("不识别".implode('/', $paramsArr)."，请配置路由规则");
+            }
            if (self::match($configArr[0], $paramsArr[0])) {
                array_shift($paramsArr);
            }

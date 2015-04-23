@@ -1,6 +1,6 @@
 <?php namespace Libs\Illuminate;
 
-class Application extends Container {
+class Application {
 
 
     /**  
@@ -26,4 +26,30 @@ class Application extends Container {
      * @var string
      */
     protected $environment = 'env';
+
+
+    /**
+     * Framework init function .
+     *
+     * @return object
+     *
+     */
+    public static function init(){
+
+        self::bootstrap();
+ 
+        return new Router(); 
+    }
+
+    /**
+     * Call bootstrap's all methods
+     *
+     * @return void
+     */
+    public static function bootstrap(){
+        $methods = get_class_methods('Libs\Illuminate\Bootstrap');
+        foreach($methods as $method) {
+            call_user_func(array('Libs\Illuminate\Bootstrap', $method));
+        }
+    }
 }

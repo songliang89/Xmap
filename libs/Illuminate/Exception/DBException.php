@@ -1,4 +1,4 @@
-<?php
+<?php namespace  Libs\Illuminate\Exception; 
 
 class DBException extends BaseException {
   

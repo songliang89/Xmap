@@ -1,4 +1,7 @@
 <?php include('Config.php');
+
+use Libs\Illuminate\Exception\BaseException;
+
 /**
  * Class of autoloader.
  *
@@ -49,6 +52,9 @@ class Autoloader {
     */  
     public static function includeFile($prefix, $postfix = '.php') {
         $filename = $prefix . $postfix;
+        if (!is_file($filename)) {
+           throw new BaseException($filename . ' File not exist.', 10001);
+        } 
         include($filename); 
     }
 }

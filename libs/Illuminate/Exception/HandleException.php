@@ -1,5 +1,7 @@
 <?php namespace Libs\Illuminate\Exception;
 
+use Libs\Illuminate\BaseView;
+
 class HandleException {
 
     public function bootstrap(){
@@ -9,14 +11,26 @@ class HandleException {
     }
 
     public function handleException(\Exception $e) {
+        $this->render($e);
+    }
+
+    public function render($e) {
         $errormsg = $e->getMessage();
         $errno = $e->getCode();
         $class = get_class($e);
-        $trace = $e->getTrace();
-        print_r($trace);
-    }
+        $trace = $e->getTrace();    
 
-    public function render($file, $line, $function, $class) {
-         
+        $tpl = new BaseView();
+       
+        $arr= array(
+            'ret'   => array(
+                'errno' => $errno,
+                'msg'   => $errormsg,
+                'trace' => $trace[0],
+            ),
+        );
+        $tpl->assign($arr); 
+        $tpl->display('message/error.html');
+                 
     } 
 }

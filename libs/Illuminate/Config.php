@@ -40,4 +40,6 @@ class Config {
             'index' => '<id?\d+>',
         ],
     ]; 
+
+    public static $refer = ['yence.cn', 'test.com'];
 }

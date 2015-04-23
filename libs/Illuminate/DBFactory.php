@@ -1,5 +1,5 @@
 <?php namespace Libs\Illuminate; 
-
+use Libs\Illuminate\Exception\DBException;
 class DBFactory {
 
     private static $instances = array(); // database connections
@@ -56,21 +56,8 @@ class DBFactory {
 
         $sql .= " {$fields} FROM {$table}";
 
-        foreach($conds as $key => $value)
-        {
-            $conds[$key] = self::$instances[self::$key]->real_escape_string($value);
-        }  
+        $sql = empty($conds) ? $sql : $this->getStringByConds($sql, $conds);        
         
-        if (!empty($conds)) 
-        {
-            foreach($conds as $key => $value) 
-            {
-                $arr[] = " {$key}{$value}";
-            }
-            $string = implode(' AND ', $arr);
-            $sql .= " WHERE {$string}";
-        }
-
         if($appends !== NULL) 
         {
             $sql .= " {$appends}";
@@ -84,6 +71,24 @@ class DBFactory {
         }
         
         return $ret;
+    }
+
+    public function selectCount($table, $conds = NULL, $appends = NULL) {
+        $sql = 'SELECT count(*)';
+        
+    }
+
+    public function getStringByConds($sql, $conds) {
+        foreach($conds as $key => $value) 
+        {
+            $value = self::$instances[self::$key]->real_escape_string($value);
+            $arr[] = " {$key}{$value}";
+        }
+        if(!empty($arr)) {
+            $string = implode(' AND ', $arr);
+            $sql .= " WHERE {$string}";
+        }
+        return $sql;
     }
 
     /**
