@@ -31,6 +31,6 @@ class BaseView {
     }
 
     public function __call ($func, $args) {
-        return call_user_func_array(array(&self::$tpl,$func),$args);
+        return call_user_func_array(array(&self::$tpl, $func), $args);
     }
 }
