@@ -133,25 +133,8 @@ class DBFactory {
      * @param array $update
      * @param array $where
      */
-    public function update($table, $update, $where){
-        $sql = "UPDATE {$table}";
-        if(!empty($update)) {
-            foreach($update as $key=>$value){
-                $value = "'" . self::$instances[self::$key]->real_escape_string($value) . "'";
-                $updateArr = " {$key}={$value}";
-            }
-            $sql .= " SET " . implode(',', $updateArr);
-        } 
-        if (!empty($where)) {
-            foreach($where as $key=>$value){
-                $value = self::$instances[self::$key]->real_escape_string($value);
-                $whereArr[] = " {$key}{$value}";        
-            }
-            $string = implode(' AND ', $whereArr);
-            $sql .= " WHERE {$string}";
-        }
-        $ret = self::$instances[self::$key]->query($sql);
-        return $ret;
+    public function update($update, $where){
+    
     }
 
     /**
@@ -160,19 +143,8 @@ class DBFactory {
      * @param array $where 
      * @return bool
      */
-    public function delete($table, $where){
-        $sql = "DELETE FROM {$table}";
-            
-        if (!empty($where)) {
-            foreach($where as $key=>$value){
-                $value = self::$instances[self::$key]->real_escape_string($value);
-                $arr[] = " {$key}{$value}";        
-            }
-            $string = implode(' AND ', $arr);
-            $sql .= " WHERE {$string}";
-        }
-        $ret = self::$instances[self::$key]->query($sql);
-        return $ret;  
+    public function delete($where){
+                
     }
 
     /**
