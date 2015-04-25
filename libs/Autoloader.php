@@ -12,9 +12,12 @@ class Autoloader {
 
 
     /**
-     * 框架加载器，用以结合其它模块的autoloader。
-     * 具体使用方法可以参考框架的Smarty.class.php
-     * @param string $autoloader 其它autoloader函数名
+     * Framework autoloader register. can use with other framework. 
+     * 
+     * Note :Example in Smarty.class.php
+     * 
+     * @param string $autoloader other autoloader func name
+     * @return void
      */
     public static function register($autoloader){
         $loaders = spl_autoload_functions();
@@ -30,6 +33,7 @@ class Autoloader {
 
    /**
     * Class autoload function.
+    * 
     * Note: all classed can be loader by this function, you can define all you rules.
     *
     * @param  string $classname

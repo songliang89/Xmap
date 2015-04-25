@@ -4,23 +4,38 @@ use Libs\Exception\DBException;
 
 class DBFactory {
 
+    /** 
+     * Mysql connection resource instance. 
+     * 
+     * @var resource
+     */
+    protected $link = null;
+
     private static $instances = array(); // database connections
 
     private static $key;
 
     const CONNECT_TIMEOUT = 4;
 
-    public function __construct($DBName = '', $DBType = 'slave', $DBConfig = [])
+    protected $DBName;
+    protected $DBConfig = []; 
+
+    public function __construct($DBName = '', $DBConfig = []) {
+        $this->DBName = $DBName;
+        $this->DBConfig = $DBConfig;         
+    } 
+
+    public function connect($DBType = 'slave')
     {
         
-        empty($DBName) && $DBName = 'default';
+        empty($this->DBName) && $this->DBName = 'default';
     
-        $host    = isset($DBConfig[$DBType]['host'])    ? $DBConfig[$DBType]['host']    :  \Config::$mysqlConfig[$DBName][$DBType]['host'];
-        $port    = isset($DBConfig[$DBType]['port'])    ? $DBConfig[$DBType]['port']    :  \Config::$mysqlConfig[$DBName][$DBType]['port']; 
-        $uname   = isset($DBConfig[$DBType]['uname'])   ? $DBConfig[$DBType]['uname']   :  \Config::$mysqlConfig[$DBName][$DBType]['uname']; 
-        $passwd  = isset($DBConfig[$DBType]['passwd'])  ? $DBConfig[$DBType]['passwd']  :  \Config::$mysqlConfig[$DBName][$DBType]['passwd'];
-        $dbname  = isset($DBConfig[$DBType]['dbname'])  ? $DBConfig[$DBType]['dbname']  :  \Config::$mysqlConfig[$DBName][$DBType]['dbname']; 
-        $charset = isset($DBConfig[$DBType]['charset']) ? $DBConfig[$DBType]['charset'] :  \Config::$mysqlConfig[$DBName][$DBType]['charset']; 
+        $host    = isset($this->DBConfig[$DBType]['host'])    ? $this->DBConfig[$DBType]['host']    :  \Config::$mysqlConfig[$this->DBName][$DBType]['host'];
+        $port    = isset($this->DBConfig[$DBType]['port'])    ? $this->DBConfig[$DBType]['port']    :  \Config::$mysqlConfig[$this->DBName][$DBType]['port']; 
+        $uname   = isset($this->DBConfig[$DBType]['uname'])   ? $this->DBConfig[$DBType]['uname']   :  \Config::$mysqlConfig[$this->DBName][$DBType]['uname']; 
+        $passwd  = isset($this->DBConfig[$DBType]['passwd'])  ? $this->DBConfig[$DBType]['passwd']  :  \Config::$mysqlConfig[$this->DBName][$DBType]['passwd'];
+        $dbname  = isset($this->DBConfig[$DBType]['dbname'])  ? $this->DBConfig[$DBType]['dbname']  :  \Config::$mysqlConfig[$this->DBName][$DBType]['dbname']; 
+        $charset = isset($this->DBConfig[$DBType]['charset']) ? $this->DBConfig[$DBType]['charset'] :  \Config::$mysqlConfig[$this->DBName][$DBType]['charset']; 
         
         self::$key = md5(implode('#', array($host, $port, $uname, $dbname, $charset)));
 
@@ -39,6 +54,13 @@ class DBFactory {
         }
     } 
 
+    public function checkLink($DBType = 'slave') {
+        $this->link = $this->connect($DBType);
+        if (!$this->link) {
+            throw new DBException('message', '1030');
+        }
+    }
+
     /**
      * Select function
      *
@@ -50,8 +72,10 @@ class DBFactory {
      * @param string $appends
      * @return array $ret 
      */
-    public function select($table, $fields, $conds = NULL, $appends = NULL)
+    public function select($table, $fields, $conds = NULL, $appends = NULL, $DBType = 'slave')
     {
+        $this->checkLink($DBType);
+    
         $sql = "SELECT ";
         
         $fields = implode(',', $fields);
@@ -85,8 +109,10 @@ class DBFactory {
      * @param string $appends
      * @return int $ret 
      */
-    public function selectCount($table, $conds = NULL, $appends = NULL) {
+    public function selectCount($table, $conds = NULL, $appends = NULL, $DBType = 'slave') {
         
+        $this->checkLink($DBType);       
+ 
         $sql = "SELECT count(*) FROM {$table}";
         
         $sql = empty($conds) ? $sql : $this->getStringByConds($sql, $conds);
@@ -111,20 +137,22 @@ class DBFactory {
      * @param string $append
      * @return int
      */
-    public function insert($table, $row, $onDup = NULL) {
+    public function insert($table, $row, $onDup = NULL, $DBType = 'master') {
  
+        $this->checkLink($DBType);
+
         $inKeyArr = $inValArr = array();
         foreach ($row as $key => $value) {
             $inKeyArr[] = ' `' . $key . '` ';
-            $inValArr[] = "'" .self::$instances[self::$key]->real_escape_string($value)."'";
+            $inValArr[] = "'" . $this->link->real_escape_string($value)."'";
         } 
     
         $sql = "INSERT INTO `{$table}` (" . implode(',', $inKeyArr) . ") VALUE (" . implode(',', $inValArr) . ")";
-        $ret = self::$instances[self::$key]->query($sql); 
+        $ret = $this->link->query($sql); 
         if ($ret !== true) {
             throw new BaseException('Insert failed.', '1028'); 
         }
-        return self::$instances[self::$key]->insert_id;
+        return $this->link->insert_id;
     }
 
     /**
@@ -133,24 +161,26 @@ class DBFactory {
      * @param array $update
      * @param array $where
      */
-    public function update($table, $update, $where){
+    public function update($table, $update, $where, $DBType = 'master'){
+        $this->checkLink($DBType);
+
         $sql = "UPDATE {$table}";
         if(!empty($update)) {
             foreach($update as $key=>$value){
-                $value = "'" . self::$instances[self::$key]->real_escape_string($value) . "'";
+                $value = "'" . $this->link->real_escape_string($value) . "'";
                 $updateArr = " {$key}={$value}";
             }
             $sql .= " SET " . implode(',', $updateArr);
         } 
         if (!empty($where)) {
             foreach($where as $key=>$value){
-                $value = self::$instances[self::$key]->real_escape_string($value);
+                $value = $this->link->real_escape_string($value);
                 $whereArr[] = " {$key}{$value}";        
             }
             $string = implode(' AND ', $whereArr);
             $sql .= " WHERE {$string}";
         }
-        $ret = self::$instances[self::$key]->query($sql);
+        $ret = $this->link->query($sql);
         return $ret;
     }
 
@@ -160,18 +190,21 @@ class DBFactory {
      * @param array $where 
      * @return bool
      */
-    public function delete($table, $where){
+    public function delete($table, $where, $DBType = 'master'){
+        
+        $this->checkLink($DBType);
+
         $sql = "DELETE FROM {$table}";
             
         if (!empty($where)) {
             foreach($where as $key=>$value){
-                $value = self::$instances[self::$key]->real_escape_string($value);
+                $value = $this->link->real_escape_string($value);
                 $arr[] = " {$key}{$value}";        
             }
             $string = implode(' AND ', $arr);
             $sql .= " WHERE {$string}";
         }
-        $ret = self::$instances[self::$key]->query($sql);
+        $ret = $this->link->query($sql);
         return $ret;  
     }
 
@@ -185,7 +218,7 @@ class DBFactory {
     public function getStringByConds($sql, $conds) {
         foreach($conds as $key => $value) 
         {
-            $value = self::$instances[self::$key]->real_escape_string($value);
+            $value = $this->link->real_escape_string($value);
             $arr[] = " {$key}{$value}";
         }
         if(!empty($arr)) {
@@ -204,6 +237,6 @@ class DBFactory {
      */
     public function query($sql)
     {
-        return self::$instances[self::$key]->query($sql); 
+        return $this->link->query($sql); 
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace App\Controllers;
 
-use App\Models\Services\User;
+use App\Models\Service\User;
 
 class HomeController extends DefaultController {
 
