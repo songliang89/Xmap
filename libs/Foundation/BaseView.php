@@ -18,7 +18,7 @@ class BaseView {
             self::$tpl->compile_locking = false;
             
 
-            //自动转义html标签，防止xss，不转义使用{=$data nofilter=}
+            //Automatic escape html tag，avoid xss，unexpected  escape use {=$data nofilter=}
             function escFilter ($content, $smarty) {
                 return htmlspecialchars($content,ENT_QUOTES,'UTF-8');
             }
