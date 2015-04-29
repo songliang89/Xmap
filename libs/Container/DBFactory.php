@@ -25,6 +25,12 @@ class DBFactory {
         $this->DBConfig = $DBConfig;         
     } 
 
+    /**
+     * Database connection function. 
+     *
+     * @param string $DBType
+     * @return void  
+     */
     public function connect($DBType = 'slave')
     {
         
@@ -54,6 +60,13 @@ class DBFactory {
         }
     } 
 
+
+    /**
+     * Check Database connection status.
+     *
+     * @param string $DBType 
+     * @return void
+     */
     public function checkLink($DBType = 'slave') {
         $this->link = $this->connect($DBType);
         if (!$this->link) {

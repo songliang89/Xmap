@@ -41,8 +41,12 @@ class Autoloader {
     */ 
     public static function loader($classname) {
         $arr = explode('\\', $classname);
-        $arr[0] = lcfirst($arr[0]);
-        $prefix = PATH_ROOT . implode('/', $arr);
+        if (isset($arr[1])) {
+            $arr[0] = lcfirst($arr[0]);
+            $prefix = PATH_ROOT . implode('/', $arr);
+        } else {
+            $prefix = PATH_ROOT . 'libs/League/' . $classname;
+        }
         self::includeFile($prefix);
     }
    
