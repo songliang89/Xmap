@@ -10,7 +10,7 @@ class Config {
      * Mysql config array, master and slave.
      *
      */
-    public static $mysqlConfig = [
+    public static $mysql = [
         'default' => [
             'master' => [
                 'host'     => 'localhost',
@@ -44,6 +44,11 @@ class Config {
             'index' => '<id?\d+>',
         ],
     ]; 
+
+    public static $redis = array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+    );
 
     public static $refer = ['yence.cn', 'test.com'];
 }

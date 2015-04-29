@@ -36,12 +36,12 @@ class DBFactory {
         
         empty($this->DBName) && $this->DBName = 'default';
     
-        $host    = isset($this->DBConfig[$DBType]['host'])    ? $this->DBConfig[$DBType]['host']    :  \Config::$mysqlConfig[$this->DBName][$DBType]['host'];
-        $port    = isset($this->DBConfig[$DBType]['port'])    ? $this->DBConfig[$DBType]['port']    :  \Config::$mysqlConfig[$this->DBName][$DBType]['port']; 
-        $uname   = isset($this->DBConfig[$DBType]['uname'])   ? $this->DBConfig[$DBType]['uname']   :  \Config::$mysqlConfig[$this->DBName][$DBType]['uname']; 
-        $passwd  = isset($this->DBConfig[$DBType]['passwd'])  ? $this->DBConfig[$DBType]['passwd']  :  \Config::$mysqlConfig[$this->DBName][$DBType]['passwd'];
-        $dbname  = isset($this->DBConfig[$DBType]['dbname'])  ? $this->DBConfig[$DBType]['dbname']  :  \Config::$mysqlConfig[$this->DBName][$DBType]['dbname']; 
-        $charset = isset($this->DBConfig[$DBType]['charset']) ? $this->DBConfig[$DBType]['charset'] :  \Config::$mysqlConfig[$this->DBName][$DBType]['charset']; 
+        $host    = isset($this->DBConfig[$DBType]['host'])    ? $this->DBConfig[$DBType]['host']    :  \Config::$mysql[$this->DBName][$DBType]['host'];
+        $port    = isset($this->DBConfig[$DBType]['port'])    ? $this->DBConfig[$DBType]['port']    :  \Config::$mysql[$this->DBName][$DBType]['port']; 
+        $uname   = isset($this->DBConfig[$DBType]['uname'])   ? $this->DBConfig[$DBType]['uname']   :  \Config::$mysql[$this->DBName][$DBType]['uname']; 
+        $passwd  = isset($this->DBConfig[$DBType]['passwd'])  ? $this->DBConfig[$DBType]['passwd']  :  \Config::$mysql[$this->DBName][$DBType]['passwd'];
+        $dbname  = isset($this->DBConfig[$DBType]['dbname'])  ? $this->DBConfig[$DBType]['dbname']  :  \Config::$mysql[$this->DBName][$DBType]['dbname']; 
+        $charset = isset($this->DBConfig[$DBType]['charset']) ? $this->DBConfig[$DBType]['charset'] :  \Config::$mysql[$this->DBName][$DBType]['charset']; 
         
         self::$key = md5(implode('#', array($host, $port, $uname, $dbname, $charset)));
 
