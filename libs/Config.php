@@ -45,10 +45,15 @@ class Config {
         ],
     ]; 
 
-    public static $redis = array(
+    public static $memcache = [
+        'host' => '127.0.0.1',
+        'port' => '11211',
+    ];
+    
+    public static $redis = [
         'host' => '127.0.0.1',
         'port' => '6379',
-    );
+    ];
 
     public static $refer = ['yence.cn', 'test.com'];
 }
